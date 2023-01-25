@@ -32,20 +32,12 @@
         // Proses ubah
         if (isset($_POST['ubah'])) {
             $id = $_POST['id'];
-            $id_outlet = $_POST['id_outlet'];
-            $kode_invoice = $_POST['kode_invoice'];
-            $id_member = $_POST['id_member'];
-            $tgl = $_POST['tgl'];
-            $batas_waktu = $_POST['batas_waktu'];
-            $tgl_bayar = $_POST['tgl_bayar'];
-            $biaya_tambahan = $_POST['biaya_tambahan'];
-            $diskon = $_POST['diskon'];
-            $pajak = $_POST['pajak'];
-            $status = $_POST['status'];
-            $dibayar = $_POST['dibayar'];
-            $id_user = $_POST['id_user'];
+            $nim = $_POST['nim'];
+            $nama = $_POST['nama'];
+            $kelas = $_POST['kelas'];
+            $jurusan = $_POST['jurusan'];
 
-            $sql = "UPDATE tb_transaksi SET id_outlet='$id_outlet', kode_invoice='$kode_invoice',id_member='$id_member', tgl='$tgl', batas_waktu='$batas_waktu', tgl_bayar='$tgl_bayar', biaya_tambahan='$biaya_tambahan', diskon='$diskon', pajak='$pajak', status='$status', dibayar='$dibayar', id_user='$id_user' WHERE id ='$id'";
+            $sql = "UPDATE mahasiswa SET nim='$nim',nama='$nama',kelas='$kelas',jurusan='$jurusan' WHERE id_mahasiswa ='$id'";
 
             $result = mysqli_query($kon, $sql);
 
@@ -58,7 +50,7 @@
 
         // Ambil data dari database
         include "conn.php";
-        $query = mysqli_query($kon, "SELECT * FROM tb_transaksi WHERE id='" . $_GET['id'] . "'");
+        $query = mysqli_query($kon, "SELECT * FROM mahasiswa WHERE id_mahasiswa ='" . $_GET['id'] . "'");
         $row = mysqli_fetch_array($query);
         ?>
 
@@ -86,62 +78,35 @@
                             <!-- form start -->
                             <form role="form" method="post" action="">
                                 <div class="box-body">
-                                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                    <input type="hidden" name="id" value="<?php echo $row['id_mahasiswa']; ?>">
                                     <div class="form-group">
-                                        <label>ID OUTLET</label>
-                                        <input type="text" name="id_outlet" class="form-control" placeholder="ID OUTLET" required value="<?php echo $row['id_outlet']; ?>">
+                                        <label>Nim</label>
+                                        <input type="text" name="nim" class="form-control" placeholder="Nim" value="<?php echo $row['nim']; ?>" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>KODE INVOICE</label>
-                                        <input type="text" name="kode_invoice" class="form-control" placeholder="KODE INVOICE" required value="<?php echo $row['kode_invoice']; ?>">
+                                        <label>Nama</label>
+                                        <input type="text" name="nama" class="form-control" placeholder="Nama" value="<?php echo $row['nama']; ?>" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>ID MEMBER</label>
-                                        <input type="text" name="id_member" class="form-control" placeholder="ID MEMBER" required value="<?php echo $row['id_member']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>TANGGAL</label>
-                                        <input type="date" name="tgl" class="form-control" placeholder="TANGGAL" required value="<?php echo $row['tgl']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>BATAS WAKTU</label>
-                                        <input type="date" name="batas_waktu" class="form-control" placeholder="BATAS WAKTU" required value="<?php echo $row['batas_waktu']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>TANGGAL BAYAR</label>
-                                        <input type="date" name="tgl_bayar" class="form-control" placeholder="TANGGAL BAYAR" required value="<?php echo $row['tgl_bayar']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>BIAYA TAMBAHAN</label>
-                                        <input type="text" name="biaya_tambahan" class="form-control" placeholder="BIAYA TAMBAHAN" required value="<?php echo $row['biaya_tambahan']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>DISKON</label>
-                                        <input type="text" name="diskon" class="form-control" placeholder="DISKON" required value="<?php echo $row['diskon']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>PAJAK</label>
-                                        <input type="text" name="pajak" class="form-control" placeholder="PAJAK" required value="<?php echo $row['pajak']; ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>STATUS</label>
-                                        <select class="form-control" name="status" value="<?php echo $row['status']; ?>>" <option value="">- Pilihan Status -</option>
-                                            <option value="Baru">Baru</option>
-                                            <option value="Proses">Proses</option>
-                                            <option value="Selesai">Selesai</option>
-                                            <option value="Diambil">Diambil</option>
+                                        <label>Kelas</label>
+                                        <select class="form-control" name="kelas">
+                                            <option value="<?php echo $row['kelas']; ?>">- <?php echo $row['kelas']; ?> -</option>
+                                            <option value="Pagi">Pagi</option>
+                                            <option value="Siang">Siang</option>
+                                            <option value="Malam">Malam</option>
+                                            <option value="Karyawan">Karyawan</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>DIBAYAR</label>
-                                        <select class="form-control" name="dibayar" value="<?php echo $row['dibayar']; ?>>" <option value="">- Pilihan -</option>
-                                            <option value="Dibayar">Dibayar</option>
-                                            <option value="Belum_dibayar">Belum_dibayar</option>
+                                        <label>Jurusan</label>
+                                        <select class="form-control" name="jurusan">
+                                            <option value="<?php echo $row['jurusan']; ?>">- <?php echo $row['jurusan']; ?> -</option>
+                                            <option value="Manajemen Informatika">Manajemen Informatika</option>
+                                            <option value="Sistem Informasi">Sistem Informasi</option>
+                                            <option value="Teknik Informatika">Teknik Informatika</option>
+                                            <option value="Sistem Komputer">Sistem Komputer</option>
+                                            <option value="Akutansi">Akutansi</option>
                                         </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>ID USER</label>
-                                        <input type="text" name="id_user" class="form-control" placeholder="ID USER" required value="<?php echo $row['id_user']; ?>">
                                     </div>
                                 </div>
                                 <!-- /.box-body -->

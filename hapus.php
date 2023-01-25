@@ -11,7 +11,7 @@ include "conn.php";
 if ($_GET) {
     $id = $_GET['id'];
 
-    $sql = "DELETE FROM tb_transaksi WHERE id ='$id'";
+    $sql = "DELETE FROM mahasiswa WHERE id_mahasiswa ='$id'";
 
     $result = mysqli_query($kon, $sql);
 
