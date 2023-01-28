@@ -95,6 +95,7 @@
                                             <th>NAMA</th>
                                             <th>KELAS</th>
                                             <th>JURUSAN</th>
+                                            <th>FOTO</th>
                                             <?php
                                             // Tampilan aksi untuk admin
                                             if (isset($_SESSION['id_user'])) {
@@ -121,6 +122,7 @@
                                                 <td><?php echo $row['nama']; ?></td>
                                                 <td><?php echo $row['kelas']; ?></td>
                                                 <td><?php echo $row['jurusan']; ?></td>
+                                                <td><img src="foto/<?php echo $row['foto'] ?>" width='100px' height='100px'></td>
                                                 <?php
                                                 // Tombol aksi untuk admin
                                                 if (isset($_SESSION['id_user'])) {

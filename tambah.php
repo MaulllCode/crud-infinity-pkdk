@@ -37,14 +37,36 @@
             $kelas = $_POST['kelas'];
             $jurusan = $_POST['jurusan'];
 
-            $sql = "INSERT INTO mahasiswa VALUES (NULL, '$nim', '$nama', '$kelas', '$jurusan')";
+            $foto = $_FILES['foto']['name'];
+            $tipe_file =  array('png', 'jpg', 'jpeg', 'gif');
+            $tmp = $_FILES['foto']['tmp_name'];
+            $date = date('dMY His');
+            $gbr = $date . '-' . $foto;
 
-            $result = mysqli_query($kon, $sql);
+            $xp = explode('.', $foto);
+            $ekstensi = strtolower(end($xp));
 
-            if (!$result) {
-                die("Connection failed: " . mysqli_connect_error());
-            } else {
-                echo '<script>alert("Data Berhasil Ditambahkan !!!"); window.location.href="index"</script>';
+            if ($foto != "") {
+
+                if (in_array($ekstensi, $tipe_file)) {
+
+                    move_uploaded_file($tmp, 'foto/' . $gbr);
+
+                    $sql = "INSERT INTO mahasiswa VALUES (NULL, '$nim', '$nama', '$kelas', '$jurusan', '$gbr')";
+
+                    $result = mysqli_query($kon, $sql);
+
+                    if (!$result) {
+                        die("Connection failed: " . mysqli_connect_error());
+                    } else {
+                        echo '<script>alert("Data Berhasil Ditambahkan !!!"); window.location.href="index"</script>';
+                    }
+                } else {
+                    echo "<script>
+                        alert('Pastikan menggunakan File Foto !');
+                        window.location.href = 'index.php';
+                        </script>";
+                }
             }
         }
         ?>
@@ -69,17 +91,17 @@
                         <div class="box box-primary">
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form" method="post" action="">
+                            <form role="form" method="post" action="" enctype="multipart/form-data">
                                 <div class="box-body">
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Nim</label>
                                         <input type="text" name="nim" class="form-control" placeholder="Nim" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Nama</label>
                                         <input type="text" name="nama" class="form-control" placeholder="Nama" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Kelas</label>
                                         <select class="form-control" name="kelas">
                                             <option value="">- Pilih Kelas -</option>
@@ -89,7 +111,7 @@
                                             <option value="Karyawan">Karyawan</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Jurusan</label>
                                         <select class="form-control" name="jurusan">
                                             <option value="">- Pilih Jurusan -</option>
@@ -100,10 +122,15 @@
                                             <option value="Akutansi">Akutansi</option>
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label>Foto</label>
+                                        <input type="file" name="foto" class="form-control" placeholder="Foto" required>
+                                    </div>
                                 </div>
                                 <!-- /.box-body -->
-                                <div class="box-footer pt-3">
+                                <div class="box-footer">
                                     <button type="submit" class="btn btn-primary" name="tambah" title="Simpan Data"> <i class="glyphicon glyphicon-floppy-disk"></i> Simpan</button>
+                                    <a href="index" class="btn btn-success">Kembali</a>
                                 </div>
                             </form>
                         </div>

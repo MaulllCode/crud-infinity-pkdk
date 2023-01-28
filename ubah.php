@@ -37,14 +37,42 @@
             $kelas = $_POST['kelas'];
             $jurusan = $_POST['jurusan'];
 
-            $sql = "UPDATE mahasiswa SET nim='$nim',nama='$nama',kelas='$kelas',jurusan='$jurusan' WHERE id_mahasiswa ='$id'";
+            $namafile = $_FILES['foto']['name'];
+            $tipe_file =  array('png', 'jpg', 'jpeg', 'gif');
+            $tmp = $_FILES['foto']['tmp_name'];
+            $date = date('dMY His');
+            $new = $date . '-' . $namafile;
 
-            $result = mysqli_query($kon, $sql);
+            $xp = explode('.', $namafile);
+            $ekstensi = strtolower(end($xp));
 
-            if (!$result) {
-                die("Connection failed: " . mysqli_connect_error());
-            } else {
-                echo '<script>alert("Data Berhasil Diubah !!!"); window.location.href="index"</script>';
+            if ($namafile != "") {
+
+                if (in_array($ekstensi, $tipe_file)) {
+
+                    $get = "SELECT foto FROM mahasiswa WHERE id_mahasiswa = '$id'";
+                    $data = mysqli_query($kon, $get);
+                    $lama = mysqli_fetch_array($data);
+
+                    unlink("foto/" . $lama['foto']);
+
+                    move_uploaded_file($tmp, 'foto/' . $new);
+
+                    $sql = "UPDATE mahasiswa SET nim='$nim',nama='$nama',kelas='$kelas',jurusan='$jurusan', foto = '$new' WHERE id_mahasiswa ='$id'";
+
+                    $result = mysqli_query($kon, $sql);
+        
+                    if (!$result) {
+                        die("Connection failed: " . mysqli_connect_error());
+                    } else {
+                        echo '<script>alert("Data Berhasil Diubah !!!"); window.location.href="index"</script>';
+                    }
+                } else {
+                    echo "<script>
+                alert('Pastikan menggunakan File Foto !');
+                window.location.href = 'index.php';
+                </script>";
+                }
             }
         }
 
@@ -76,18 +104,18 @@
                         <div class="box box-primary">
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form" method="post" action="">
+                            <form role="form" method="post" action="" enctype="multipart/form-data">
                                 <div class="box-body">
                                     <input type="hidden" name="id" value="<?php echo $row['id_mahasiswa']; ?>">
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Nim</label>
                                         <input type="text" name="nim" class="form-control" placeholder="Nim" value="<?php echo $row['nim']; ?>" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Nama</label>
                                         <input type="text" name="nama" class="form-control" placeholder="Nama" value="<?php echo $row['nama']; ?>" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Kelas</label>
                                         <select class="form-control" name="kelas">
                                             <option value="<?php echo $row['kelas']; ?>">- <?php echo $row['kelas']; ?> -</option>
@@ -97,7 +125,7 @@
                                             <option value="Karyawan">Karyawan</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Jurusan</label>
                                         <select class="form-control" name="jurusan">
                                             <option value="<?php echo $row['jurusan']; ?>">- <?php echo $row['jurusan']; ?> -</option>
@@ -108,10 +136,16 @@
                                             <option value="Akutansi">Akutansi</option>
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label>Foto</label><br>
+                                        <img class="mb-3" src="foto/<?php echo $row['foto']; ?>" width="100px" height="100px">
+                                        <input type="file" name="foto" class="form-control" placeholder="Foto" required>
+                                    </div>
                                 </div>
                                 <!-- /.box-body -->
-                                <div class="box-footer pt-3">
+                                <div class="box-footer">
                                     <button type="submit" class="btn btn-primary" name="ubah" title="Simpan Data"> <i class="glyphicon glyphicon-floppy-disk"></i> Simpan</button>
+                                    <a href="index" class="btn btn-success">Kembali</a>
                                 </div>
                             </form>
                         </div>

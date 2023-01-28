@@ -53,8 +53,6 @@
         ?>
     </div>
 
-    <div class="card">
-
         <div id="form" class="container py-3">
             <!-- Content Wrapper. Contains page content -->
             <div class="card">
@@ -74,15 +72,15 @@
                                 <!-- /.box-header -->
                                 <!-- form start -->
                                 <form method="post" action="">
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Username</label>
                                         <input type="text" class="form-control" name="username" placeholder="Masukan Username" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label>Password</label>
                                         <input type="password" class="form-control" name="password" placeholder="Masukan Password" required>
                                     </div>
-                                    <div class="form-group pt-3">
+                                    <div>
                                         <input type="submit" class="btn btn-primary" name="login" value="Login">
                                     </div>
                                 </form>
@@ -94,7 +92,6 @@
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-        </div>
     </div>
 </body>
 
